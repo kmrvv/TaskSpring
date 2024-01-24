@@ -25,10 +25,14 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
-    annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation("org.modelmapper:modelmapper:3.2.0")
+    // https://mvnrepository.com/artifact/org.projectlombok/lombok
+    compileOnly("org.projectlombok:lombok:1.18.30")
+    annotationProcessor ("org.projectlombok:lombok:1.18.30")
+
 }
 
 tasks.withType<Test> {

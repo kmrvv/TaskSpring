@@ -1,10 +1,20 @@
-package ru.komarov.springtask.task.model;
+package ru.komarov.springtask.task.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import ru.komarov.springtask.task.dto.UserResponse;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(columnDefinition = "serial")
@@ -19,39 +29,13 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    public User() {}
-
     public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public UserResponse mapToDto() {
+        return new UserResponse(this.id, this.name, this.email, this.password);
     }
 }
