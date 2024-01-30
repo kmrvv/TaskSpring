@@ -32,6 +32,16 @@ dependencies {
     // https://mvnrepository.com/artifact/org.projectlombok/lombok
     compileOnly("org.projectlombok:lombok:1.18.30")
     annotationProcessor ("org.projectlombok:lombok:1.18.30")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools
+    implementation("org.springframework.boot:spring-boot-devtools:3.2.2")
+    // https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine
+    testImplementation("org.junit.vintage:junit-vintage-engine:5.10.1")
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-thymeleaf
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf:3.2.2")
+
+
+
+
 
 }
 

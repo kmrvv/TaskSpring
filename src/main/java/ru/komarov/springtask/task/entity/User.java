@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.komarov.springtask.task.dto.UserRequest;
 import ru.komarov.springtask.task.dto.UserResponse;
 
 @Entity
@@ -35,7 +36,10 @@ public class User {
         this.password = password;
     }
 
-    public UserResponse mapToDto() {
+    public UserResponse mapToDtoResponse() {
         return new UserResponse(this.id, this.name, this.email, this.password);
+    }
+    public UserRequest mapToDtoRequest() {
+        return new UserRequest(this.name, this.email, this.password);
     }
 }

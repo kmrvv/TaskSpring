@@ -3,22 +3,49 @@ package ru.komarov.springtask.task.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.komarov.springtask.task.dto.UserRequest;
 import ru.komarov.springtask.task.dto.UserResponse;
+import ru.komarov.springtask.task.entity.User;
+import ru.komarov.springtask.task.exception.UserNotFoundException;
 import ru.komarov.springtask.task.service.UserService;
 
 import java.util.Collection;
 
 @AllArgsConstructor
-@RestController
-@RequestMapping("api/users")
+@Controller
+//@RequestMapping("api/users")
 public class userController {
-    private UserService userService;
+    private final UserService userService;
+
+    @GetMapping("/users")
+    public String viewHomePage(Model model) {
+        model.addAttribute("listUsers", userService.getAllUsers());
+        return "index";
+    }
+
+    @GetMapping("users/showNewUserForm")
+    public String showNewUserForm(Model model) {
+        model.addAttribute("user", userService.createUser());
+        return "newUser";
+    }
+
+    @PostMapping("users/saveUser")
+    public String saveUser(@ModelAttribute("user") User user) {
+        userService.createUser(user);
+        return "redirect:/users";
+    }
+
+    @GetMapping("users/showFormForUpdate/{id}")
+    public String showFormForUpdate(@PathVariable(value = "id") Long userId, Model model) throws UserNotFoundException {
+        model.addAttribute("user", userService.getUserById(userId));
+        return "userUpdate";
+    }
 
     @PostMapping
-    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest request) {
-        return new ResponseEntity<>(userService.createUser(request), HttpStatus.CREATED);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        return new ResponseEntity<>(userService.createUser(user), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -29,7 +56,7 @@ public class userController {
     @GetMapping("{id}")
     public ResponseEntity<Object> getUserById(@PathVariable("id") Long userId) {
         try {
-            UserResponse user = userService.getUserById(userId).mapToDto();
+            UserResponse user = userService.getUserById(userId).mapToDtoResponse();
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (Exception exception) {
             exception.printStackTrace();

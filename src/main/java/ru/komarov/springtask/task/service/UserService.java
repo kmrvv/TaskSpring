@@ -9,9 +9,7 @@ import ru.komarov.springtask.task.entity.User;
 import ru.komarov.springtask.task.mapper.UserMapper;
 import ru.komarov.springtask.task.repository.UserRepository;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,14 +17,23 @@ import java.util.stream.Collectors;
 public class UserService {
     private UserRepository userRepository;
 
-    public UserResponse createUser(UserRequest request) {
-        User savedUser = userRepository.save(request.mapToUser());
-        return savedUser.mapToDto();
+    public User createUser(User user) {
+        User savedUser = userRepository.save(user);
+        return savedUser;
     }
 
+    public User createUser() {
+        return new User();
+    }
+
+//    public UserRequest createUser() {
+//        return new UserRequest();
+//    }
+
     public User getUserById(Long userId) throws UserNotFoundException {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        User user = optionalUser.orElseThrow(()->new UserNotFoundException("Пользователь не найден"));
+        User user = userRepository
+                .findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("Пользователь не найден"));
         return user;
     }
 
@@ -48,5 +55,7 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
-    public void deleteAllUsers() {userRepository.deleteAll();}
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
+    }
 }
